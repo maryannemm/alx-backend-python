@@ -1,31 +1,19 @@
 #!/usr/bin/env python3
-"""
-This module contains an async function to run multiple coroutines concurrently.
-"""
-
+'''Asynchronous Python example
+'''
 import asyncio
 from typing import List
-from 0-basic_async_syntax import wait_random
 
+# Importing the wait_random function from 0-basic_async_syntax
+wait_random = __import__('0-basic_async_syntax').wait_random
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
-    """
-    Run wait_random n times concurrently and return the delays in ascending order.
-
-    Args:
-        n (int): Number of times to spawn wait_random.
-        max_delay (int): Maximum delay for wait_random.
-
-    Returns:
-        List[float]: List of delays in ascending order.
-    """
-    tasks = [wait_random(max_delay) for _ in range(n)]
-    delays = []
-    
-    # Collect completed results in the order they finish
-    for task in asyncio.as_completed(tasks):
-        delay = await task
-        delays.append(delay)
-    
-    return delays
+    '''Returns a sorted list of results from wait_random function calls
+    '''
+    # Using asyncio.gather to run multiple instances of wait_random concurrently
+    res = await asyncio.gather(
+        *tuple(map(lambda _: wait_random(max_delay), range(n)))
+    )
+    # Returning the sorted list of results
+    return sorted(res)
 

@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
-"""
-This module contains a function that returns an asyncio Task.
-"""
-
+'''Example of asynchronous Python code
+'''
+import time
 import asyncio
-from 0-basic_async_syntax import wait_random
 
+# Loading the wait_n function from 1-concurrent_coroutines module
+wait_n = __import__('1-concurrent_coroutines').wait_n
 
-def task_wait_random(max_delay: int) -> asyncio.Task:
-    """
-    Create and return an asyncio Task for wait_random with the given max_delay.
-
-    Args:
-        max_delay (int): Maximum delay for wait_random.
-
-    Returns:
-        asyncio.Task: The task object running wait_random.
-    """
-    return asyncio.create_task(wait_random(max_delay))
+def measure_time(n: int, max_delay: int) -> float:
+    '''Measures the average time taken for wait_n to complete
+    '''
+    start = time.time()  # Capture the initial time
+    asyncio.run(wait_n(n, max_delay))  # Execute the wait_n function asynchronously
+    # Compute the total runtime and return the average time per execution
+    return (time.time() - start) / n
 
