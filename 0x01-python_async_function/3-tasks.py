@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
-'''Example of asynchronous Python code
-'''
-import time
+"""
+Module for task_wait_random function.
+"""
+
 import asyncio
+from typing import Any
+wait_random = __import__('0-basic_async_syntax').wait_random
+def task_wait_random(max_delay: int) -> asyncio.Task:
+    """
+    Returns an asyncio.Task that waits for a random delay.
 
-# Loading the wait_n function from 1-concurrent_coroutines module
-wait_n = __import__('1-concurrent_coroutines').wait_n
-
-def measure_time(n: int, max_delay: int) -> float:
-    '''Measures the average time taken for wait_n to complete
-    '''
-    start = time.time()  # Capture the initial time
-    asyncio.run(wait_n(n, max_delay))  # Execute the wait_n function asynchronously
-    # Compute the total runtime and return the average time per execution
-    return (time.time() - start) / n
+    Args:
+        max_delay (int): The maximum delay in seconds.
+    
+    Returns:
+        asyncio.Task: The task object for wait_random.
+    """
+    return asyncio.create_task(wait_random(max_delay))
 

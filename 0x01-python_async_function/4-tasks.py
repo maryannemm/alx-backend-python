@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
-'''Asynchronous Python example
-'''
-from typing import List
+"""
+Module for task_wait_n function.
+"""
+
 import asyncio
-
-# Importing task_wait_random function from the 3-tasks module
-time_wait_random = __import__('3-tasks').task_wait_random
-
+from typing import List
+task_wait_random = __import__('3-tasks').task_wait_random
 async def task_wait_n(n: int, max_delay: int) -> List[float]:
-    '''Returns a sorted list of results from task_wait_random function calls
-    '''
-    # Run multiple instances of task_wait_random concurrently using asyncio.gather
-    res = await asyncio.gather(
-        *tuple(map(lambda _: time_wait_random(max_delay), range(n)))
-    )
-    # Return the results sorted in ascending order
-    return sorted(res)
+    """
+    Spawns task_wait_random n times with the specified max_delay.
+
+    Args:
+        n (int): Number of tasks to create.
+        max_delay (int): The maximum delay for each task.
+    
+    Returns:
+        List[float]: A list of delays in ascending order.
+    """
+    tasks = [task_wait_random(max_delay) for _ in range(n)]
+    delays = await asyncio.gather(*tasks)
+    return sorted(delays)
 
